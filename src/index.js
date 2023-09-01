@@ -34,22 +34,27 @@ function setIsStart(bool) {
 
 function start() {
   makeRandomNumber();
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const userInputNumbers = e.target[0].value;
-    console.log('유저입력', userInputNumbers);
-    validator(userInputNumbers) ? match(computerInputNumbers, userInputNumbers) : error();
-  });
+  form.addEventListener('submit', handleSubmit);
   result.innerHTML = ``;
   refreshBtn.style.display = 'none';
 }
 
 function finish() {
+  form.removeEventListener('submit', handleSubmit);
   result.innerHTML = `<h1>🎉성공했습니다🎉</h1><p>게임을 다시 시작하시겠습니까?</p>`;
   refreshBtn.style.display = 'block';
-  refreshBtn.addEventListener('click', () => {
-    setIsStart(true);
-  });
+  refreshBtn.addEventListener('click', handleRefresh);
+}
+
+function handleRefresh() {
+  setIsStart(true);
+}
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const userInputNumbers = e.target[0].value;
+  console.log('유저입력', userInputNumbers);
+  validator(userInputNumbers) ? match(computerInputNumbers, userInputNumbers) : error();
 }
 
 function makeRandomNumber() {
@@ -66,6 +71,9 @@ function match(computerInputNumbers, userInputNumbers) {
 }
 
 function validator(input) {
+  if (input.length > 3) {
+    return false;
+  }
   let userInput = new Set(input + '');
   return userInput.size === 3 ? true : false;
 }
