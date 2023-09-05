@@ -4,8 +4,6 @@
 //     }
 //   }
 
-import BaseballGame from './game.js';
-
 //   // 예시
 //   play(123, 456); // '낫싱'
 //   play(123, 345); // '1볼'
@@ -15,4 +13,5 @@ import BaseballGame from './game.js';
 //   play(123, 134); // '1볼 1스트라이크'
 //   play(123, 132); // '2볼 1스트라이크'
 //   play(123, 124); // '2스트라이크
+import BaseballGame from './game.js';
 const game = new BaseballGame();

@@ -1,3 +1,5 @@
+import makeRandomNumber from './helper.js';
+
 export default class BaseballGame {
   constructor() {
     this.isStart = true;
@@ -60,13 +62,13 @@ export default class BaseballGame {
     alert('중복되지 않는 세자리 수를 입력해주세요!');
   }
 
-  fail() {
+  fail(userInputNumbers) {
     let message = '';
-    this.intersection(userInputNumbers) ? (message = this.intersection(userInputNumbers)) : (message = '낫씽');
+    message = this.play(userInputNumbers);
     this.result.textContent = message;
   }
 
-  intersection(userInputNumbers) {
+  play(userInputNumbers) {
     let ci = new Set(this.computerInputNumbers);
     let ui = new Set(userInputNumbers);
     let result = new Set();
@@ -87,15 +89,6 @@ export default class BaseballGame {
       ? `${ball}볼`
       : strike && ball
       ? `${ball}볼 ${strike}스트라이크`
-      : false;
+      : '낫싱';
   }
-}
-
-function makeRandomNumber() {
-  let result = new Set();
-  while (result.size !== 3) {
-    result.add(MissionUtils.Random.pickNumberInRange(1, 9));
-  }
-  console.log([...result].join(''));
-  return [...result].join('');
 }
