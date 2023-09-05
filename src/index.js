@@ -21,6 +21,7 @@ let computerInputNumbers;
 const form = document.querySelector('form');
 const result = document.getElementById('result');
 const refreshBtn = document.getElementById('game-restart-button');
+const input = document.getElementById('user-input');
 render();
 
 function render() {
@@ -33,6 +34,8 @@ function setIsStart(bool) {
 }
 
 function start() {
+  input.textContent = '';
+  input.focus();
   makeRandomNumber();
   form.addEventListener('submit', handleSubmit);
   result.innerHTML = ``;
