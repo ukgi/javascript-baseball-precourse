@@ -1,4 +1,4 @@
-import makeRandomNumber from './helper.js';
+import { makeRandomNumber, validator } from './helper.js';
 
 export default class BaseballGame {
   constructor() {
@@ -32,7 +32,6 @@ export default class BaseballGame {
 
   finish() {
     this.form.removeEventListener('submit', this.handleSubmit);
-    this.result.innerHTML = `<h1>🎉성공했습니다🎉</h1><p>게임을 다시 시작하시겠습니까?</p>`;
     this.refreshBtn.style.display = 'block';
   }
 
@@ -43,32 +42,25 @@ export default class BaseballGame {
   handleSubmit = (e) => {
     e.preventDefault();
     const userInputNumbers = e.target[0].value;
-    this.validator(userInputNumbers) ? this.match(this.computerInputNumbers, userInputNumbers) : this.error();
+    validator(userInputNumbers) ? this.showPopup(this.computerInputNumbers, userInputNumbers) : this.error();
   };
-
-  match(computerInputNumbers, userInputNumbers) {
-    computerInputNumbers === userInputNumbers ? this.setIsStart(false) : this.fail(userInputNumbers);
-  }
-
-  validator(input) {
-    if (input.length > 3) {
-      return false;
-    }
-    let userInput = new Set(input + '');
-    return userInput.size === 3 ? true : false;
-  }
 
   error() {
     alert('중복되지 않는 세자리 수를 입력해주세요!');
   }
 
-  fail(userInputNumbers) {
+  showPopup(computerInputNumbers, userInputNumbers) {
     let message = '';
-    message = this.play(userInputNumbers);
-    this.result.textContent = message;
+    message = this.play(computerInputNumbers, userInputNumbers);
+    this.result.innerHTML = message;
   }
 
-  play(userInputNumbers) {
+  play(computerInputNumbers, userInputNumbers) {
+    if (computerInputNumbers === userInputNumbers) {
+      this.setIsStart(false);
+      return `<h1>🎉성공했습니다🎉</h1><p>게임을 다시 시작하시겠습니까?</p>`;
+    }
+
     let ci = new Set(this.computerInputNumbers);
     let ui = new Set(userInputNumbers);
     let result = new Set();
